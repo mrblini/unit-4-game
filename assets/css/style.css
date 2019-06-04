@@ -1,0 +1,25 @@
+
+.inline {
+    display: inline;
+}
+
+.bodyBackground {
+    background-image: url('../images/background.png');
+}
+
+.imgSize {
+    height: 10%;
+    width: 10%;
+    padding: 0;
+    margin: 1%;
+    align-content: middle;
+}
+
+div {
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+#victoryMsg {
+    color: rgb(204, 0, 0)
+}
