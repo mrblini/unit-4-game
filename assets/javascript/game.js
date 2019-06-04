@@ -52,17 +52,28 @@ $(document).ready(function () {
             return myRandomNumBetween0and12;
         }
         else {
-            console.log("reset false");
+            console.log("myRandomNum() -> reset false, random number = " + myRandomNumBetween0and12);
             return myRandomNumBetween0and12;
         }
     } 
 
     // --------- addMyNums()
     function addMyNums(myBeginningNum) {
-        console.log("addMyNums() -> myBeginningNum: " + myBeginningNum);
+        reset = false; 
+        // console.log("addMyNums() -> myBeginningNum: " + myBeginningNum);
         myRandomAddedNum0and12 = myRandomAddedNum0and12 + myBeginningNum;
-        console.log("addMyNums() number: " + myRandomAddedNum0and12);
+        console.log("addMyNums() -> reset false, added number = " + myRandomAddedNum0and12);
         document.getElementById("myNumber").innerHTML = myRandomAddedNum0and12;
+        return myRandomAddedNum0and12;
+    }
+
+    // --------- defeat()
+    function defeat() {
+        reset = true;
+        losses += 1;
+        document.getElementById("lossesNum").innerHTML = losses;
+        document.getElementById("victoryMsg").innerHTML = loser;
+        numToMatch();
     }
 
     // --------- victory()
@@ -73,22 +84,15 @@ $(document).ready(function () {
         document.getElementById("victoryMsg").innerHTML = winner;
     }
 
-    // --------- defeat()
-    function defeat() {
-        losses += 1;
-        reset = true;
-        document.getElementById("lossesNum").innerHTML = losses;
-        document.getElementById("victoryMsg").innerHTML = loser;
-    }
 
 
     // ----------------------- ON CLICK 
     $("#img1").click(function () {
         console.log("Reset: " + reset);
+
         randomNumBetween0and50 = numToMatch();
         myRandomNumBetween0and12 = myRandomNum();
-        console.log("myRandomNum(): " + myRandomNum())
-        myRandomAddedNum0and12 = addMyNums(myRandomNumBetween0and12);
+        myRandomAddedNum0and12 = addMyNums(myRandomNumBetween0and12); // WHY DO I HAVE TO DECLARE IT 'VAR'?
 
 
         // --------- Lose message
