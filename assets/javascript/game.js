@@ -1,110 +1,86 @@
-
-
-
-
-// create and display random nnumber between 19 - 120
-
-// each crystal should have a random hidden value between 1 - 12  
-
  
+
 
 $(document).ready(function () {
     // --------- winsNum
     var wins = 0;
     // --------- lossesNum
     var losses = 0;
-    // --------- reset
-    var reset = true;
-    // --------- randomNumBetween0and50
-    var randomNumBetween0and50 = 0;
-    // --------- myRandomNumBetween0and12
-    var myRandomNumBetween0and12 = 0;
-    // --------- myRandomAddedNum0and12
-    var myRandomAddedNum0and12 = 0;
     // --------- defeatMessage
-    var loser = "You lost, my brotha."
+    var loser = "You lost, brotha."
     // --------- victoryMessage
     var winner = "You are a winner!"
+    // --------- numToMatch50To100
+    var numToMatch50To100 = Math.floor(Math.random() * 51) + 50;
+    // --------- myRandomNum1To12
+    var myScore = 0;
 
 
 
-
+    populateGems();
 
     // --------- numToMatch()
     function numToMatch() {
         if (reset === true) {
-            randomNumBetween0and50 = Math.floor(Math.random() * 50); // numToMatch
-            document.getElementById("numToMatch").innerHTML = randomNumBetween0and50;
-            console.log("numToMatch(): " + randomNumBetween0and50);
-            return randomNumBetween0and50;
-        }
-        else {
-            console.log("numToMatch() 'else': " + randomNumBetween0and50);
-            return randomNumBetween0and50;
+            numToMatch50To100 = Math.floor(Math.random() * 50) + 50; // numToMatch
+            document.getElementById("numToMatch").innerHTML = numToMatch50To100;
+            console.log("numToMatch(): " + numToMatch50To100);
+            return numToMatch50To100;
         }
     }
 
-    // --------- myRandomNum()
-    function myRandomNum() {
-        if (reset === true) {
-            myRandomNumBetween0and12 = Math.floor(Math.random() * 12);
-            console.log("myRandomNum() reset = true, num = " + myRandomNumBetween0and12);
-            return myRandomNumBetween0and12;
+    // --------- 1 to 12
+    function myRandomNum1To12() {
+        return Math.floor(Math.random() * 12) + 1;
+    }
+
+    // --------- populate gems
+    function populateGems() {
+        var imgTags = $('.myImg')   // Creates an array of my images' tags
+        for(var i = 0; i < imgTags.length; i++) { // iterates through all images and inserts random values in each
+            $(imgTags[i]).attr('data-value', myRandomNum1To12); // add data-value to each image w Random1To12
+            // console.log("image tags: " + imgTags[i] + ", data value: " + imgTags[i].attr('data-value'));
         }
-        else {
-            console.log("myRandomNum() -> reset false, random number = " + myRandomNumBetween0and12);
-            return myRandomNumBetween0and12;
-        }
-    } 
-
-    // --------- addMyNums()
-    function addMyNums(myBeginningNum) {
-        reset = false; 
-        // console.log("addMyNums() -> myBeginningNum: " + myBeginningNum);
-        myRandomAddedNum0and12 = myRandomAddedNum0and12 + myBeginningNum;
-        console.log("addMyNums() -> reset false, added number = " + myRandomAddedNum0and12);
-        document.getElementById("myNumber").innerHTML = myRandomAddedNum0and12;
-        return myRandomAddedNum0and12;
     }
-
-    // --------- defeat()
-    function defeat() {
-        reset = true;
-        losses += 1;
-        document.getElementById("lossesNum").innerHTML = losses;
-        document.getElementById("victoryMsg").innerHTML = loser;
-        numToMatch();
-    }
-
-    // --------- victory()
-    function victory() {
-        wins += 1;
-        reset = true;
-        document.getElementById("winsNum").innerHTML = wins;
-        document.getElementById("victoryMsg").innerHTML = winner;
-    }
-
 
 
     // ----------------------- ON CLICK 
-    $("#img1").click(function () {
-        console.log("Reset: " + reset);
+    $(".myImg").click(function() {   // on click, grab all html elements w class myImage and make it an object!
+        // console.log($(this).attr('data-value'))  // console log the attribute data-value of all image objects
 
-        randomNumBetween0and50 = numToMatch();
-        myRandomNumBetween0and12 = myRandomNum();
-        myRandomAddedNum0and12 = addMyNums(myRandomNumBetween0and12); // WHY DO I HAVE TO DECLARE IT 'VAR'?
+        // grab my images and turn their data value to intiger
+        var gemValue = parseInt($(this).attr('data-value'));
+
+        // increase score
+        myScore = myScore + gemValue;
+        
+        // console.log(gemValue, myScore, numToMatch50To100);
+
+        // Display numbers
+        document.getElementById("myNumber").innerHTML = myScore;
+        document.getElementById("numToMatch").innerHTML = numToMatch50To100;
 
 
-        // --------- Lose message
-        if (myRandomAddedNum0and12 > randomNumBetween0and50) {
-            defeat();
+
+        // Victory or defeat?
+        if (myScore === numToMatch50To100) {
+            myScore = 0;
+            wins++;
+            numToMatch50To100 = Math.floor(Math.random() * 51) + 50;
+            document.getElementById("victoryMsg").innerText = winner;
+            document.getElementById("winsNum").innerHTML = wins;
+            populateGems();
         }
-        // --------- victoryMsg
-        else if (myRandomAddedNum0and12 === randomNumBetween0and50) {
-            victory();
+        else if (myScore > numToMatch50To100) {
+            myScore = 0;
+            losses++;
+            numToMatch50To100 = Math.floor(Math.random() * 51) + 50;
+            document.getElementById("victoryMsg").innerHTML = loser;
+            document.getElementById("lossesNum").innerHTML = losses;
+            populateGems();
         }
     });
-
+ 
 
 
 });
